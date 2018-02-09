@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         //input a new question/new 4 options
         newQuestion(turn);
 
-         mCountDown = new CountDownTimer(5100, 1000) {
+         mCountDown = new CountDownTimer(5500, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         }.start();
         mCountDown.cancel();
         mCountDown.start();
+
 
         firstChoice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,20 +239,21 @@ public class MainActivity extends AppCompatActivity {
                 alertDialogBuilder.setTitle("Do you want to end the game?");
 
                 //creating alert message
-                alertDialogBuilder.setMessage("click yes to exit");
+                alertDialogBuilder.setMessage("Click Yes to Exit");
                 //so users can't
                 alertDialogBuilder.setCancelable(false);
 
-                alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //if clicked, go back to main activity (welcome screen)
                         Intent myIntent = new Intent(MainActivity.this, WelcomeScreen.class);
                         startActivity(myIntent);
+                        onStop();
 
                     }
                 });
 
-                alertDialogBuilder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //if no is selected, do nothing
                         dialog.cancel();
@@ -259,11 +261,24 @@ public class MainActivity extends AppCompatActivity {
                 });
                 AlertDialog alert11 = alertDialogBuilder.create();
                 alert11.show();
+
             }
         });
     }
+    public void onStop() {super.onStop();
+    mCountDown.cancel();
+    }
 
-    private void newQuestion(int number){
+    public void onPause(){
+        super.onPause();
+    }
+
+    public void onResume(){
+        super.onResume();
+        mCountDown.start();
+    }
+
+    public void newQuestion(int number){
         //shuffle the list
         //set member image (the first term) to the screen
         Collections.shuffle(list);
